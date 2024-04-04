@@ -44,6 +44,7 @@ def firebase_payload(firebase_uid):
             "sign_in_provider": "password",
         },
         "uid": firebase_uid,
+        "phone_number": "+9012345678",
     }
 
 
@@ -203,6 +204,7 @@ def test_create_new_user_with_firebase_payload(
         "email": "walisonfilipe@hotmail.com",
         "email_verified": True,
         "disabled": False,
+        "phoneNumber": "+9012345678",
     }
 
     mocker.patch(
@@ -215,7 +217,10 @@ def test_create_new_user_with_firebase_payload(
     new_user = firebase_authentication.authenticate_credentials(firebase_payload)
 
     assert getattr(new_user, User.USERNAME_FIELD) == firebase_uid
-    assert new_user.email == user_data["email"]
+    if firebase_auth_settings.USE_PHONE_NUMBER:
+        assert new_user.email == user_data["phoneNumber"]
+    else:
+        assert new_user.email == user_data["email"]
 
 
 @pytest.mark.parametrize(

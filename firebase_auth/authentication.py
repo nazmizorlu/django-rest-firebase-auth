@@ -121,6 +121,9 @@ class FirebaseAuthentication(BaseFirebaseAuthentication):
         self, uid: str, firebase_user: auth.UserRecord
     ) -> User:
         query = {self.uid_field: uid}
-        user, _ = User.objects.get_or_create(**query, defaults={"email": firebase_user.email})
+        if firebase_auth_settings.USE_PHONE_NUMBER:
+            user, _ = User.objects.get_or_create(**query, defaults={"email": firebase_user.phone_number})
+        else:
+            user, _ = User.objects.get_or_create(**query, defaults={"email": firebase_user.email})
 
         return user

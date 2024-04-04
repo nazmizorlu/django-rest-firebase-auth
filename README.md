@@ -43,6 +43,9 @@ FIREBASE_AUTH = {
     "SERVICE_ACCOUNT_KEY_FILE": "",
 
     # require that user has verified their email
-    "EMAIL_VERIFICATION": False
+    "EMAIL_VERIFICATION": False,
+
+    # Enable to use Phone Authentication; user's phone number will be used as an email
+    "USE_PHONE_NUMBER": False,
 }
 ```
